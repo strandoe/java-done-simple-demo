@@ -1,0 +1,38 @@
+allprojects {
+    apply plugin: 'java'
+    compileJava.options.encoding = 'UTF-8'
+    compileJava.sourceCompatibility = '1.7'
+    compileJava.targetCompatibility = '1.7'
+
+    group = 'com.oysteinstrand.javadonesimple'
+    version = '1.0'
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '1.9'
+        distributionUrl = 'http://services.gradle.org/distributions/gradle-1.9-all.zip'
+    }
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.2',
+                'org.codehaus.groovy:groovy-all:2.1.1'
+
+        runtime 'ch.qos.logback:logback-classic:1.0.9',
+                'org.slf4j:jcl-over-slf4j:1.7.2',
+                'org.slf4j:log4j-over-slf4j:1.7.2'
+
+        testCompile 'junit:junit:4.8.2',
+                'org.mockito:mockito-all:1.8.5'
+    }
+    configurations {
+        all*.exclude group: 'commons-logging'
+        all*.exclude group: 'log4j'
+
+        // exclude aspectj - we do not use it
+        all*.exclude group: 'org.aspectj'
+    }
+}
